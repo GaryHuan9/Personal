@@ -21,16 +21,16 @@
 title: Gary Huang
 email: mail.gary.huang@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  My development blog site for WolverineSoft Studio's Project Rage!
+  It is also my first time setting up a website. In the future I am
+  planning on incorporating this blog into my personal website.
 # baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 
 github_username:  GaryHuan9
 
 # Build settings
-remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+remote_theme: "mmistakes/minimal-mistakes"
 plugins:
   - jekyll-feed
   - jekyll-include-cache
