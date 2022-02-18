@@ -1,3 +1,5 @@
+# launch with: bundle exec jekyll serve --force_polling
+
 # Welcome to Jekyll!
 #
 # This config file is meant for settings that affect your whole blog, values
@@ -36,6 +38,9 @@ locale: "en-US"
 plugins:
   - jekyll-feed
   - jekyll-include-cache
+
+livereload: true
+future: true
 
 search              : true
 search_full_content : true
