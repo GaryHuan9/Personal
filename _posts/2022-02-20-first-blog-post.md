@@ -8,7 +8,7 @@ Welcome to my first ever official blog post! This series of posts will document 
 While this is only my first semester working with the studio and second semester in college, I have had a lot of previous game development and programming experiences. A current personal project that I have been consistently working on is a physically based rendering software called [Echo](https://github.com/GaryHuan9/EchoRenderer) which is written in C# with minimal external library.
 
 # Event Bus Rework
-*5 hours (unlisted on Jira)*
+*6 hours (unlisted on Jira)*
 
 ## The system itself
 After cloning the project repository, the first script file that I looked at is `EventBus.cs`, since it was mentioned in the project Confluence site. The original code is quite interesting, there are some Java-style variables names and comments, with other redundant or inappropriate use of the C# syntax that my IDE ([Rider](https://www.jetbrains.com/rider/)) is shouting at me with underlines. For example
@@ -32,27 +32,29 @@ As I was scrolling through the code, I really wanted to rework and improve this 
 I moved methods around, changed some data structures, removed quite a lot of redundant code. I also removed the destructor for the `Subscription<T>` class, since it will *never* get invoked unless the `Subscription<T>` is explicitly unsubscribed (and destructors in C# are only designed to be used for a failsafe measure). Now, whoever invokes `Subscribe` is also fully responsible for invoking `Unsubscribe`, which makes more sense than just orphaning the `Subscription<T>`.
 
 ## The GUI debugger
-Nikhil's debugger works, however it injects *a lot* of boilerplate code into the `EventBus` class itself. A great debugger should function above a system, but not entangled with the system, so I extracted all of the logging code into a different class and removed the majority of the code repetitions. While all of this reworking already used more hours than I originally expected, I still decided to also improve the graphical presentation of the debugger. 
+Nikhil's debugger works, however it injects *a lot* of boilerplate code into the `EventBus` class itself. A great debugger should function above a system, but not entangled with the system, so I extracted all of the logging code into a different class and removed the majority of the code repetitions.
 
-To be able to uniquely identity all of the event contexts that can be used with `EventBus`, I added an empty `IEvent` interface which all contexts must implement. With this interface, the debugger is able to find all of the event types in our `Assembly` and list them out for our troubled user to see. 
+![image](/assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui.png){: style="float: right; padding: 15px"}
 
-![image](../assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui.png)
+While all of this reworking already used more hours than I originally expected, I still decided to also improve the graphical presentation of the debugger. To be able to uniquely identity all of the event contexts that can be used with `EventBus`, I added an empty `IEvent` interface which all contexts must implement. With this interface, the debugger is able to find all of the event types in our `Assembly` and list them out for our troubled user to see. 
+
+![image](/assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui-search.png){: style="float: right; padding: 15px"}
 
 I also added a search bar that could be very helpful in the future if we have hundreds of events. The code simply removes any candidate that does not contain the keyword that we are searching in a case-insensitive manner.
-
-![image](../assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui-search.png)
 
 To carry the configuration of the selected events across Unity assembly reloads and editor restarts, I implemented support for binary serialization at the end as a final mini task. If there is any event selected by the user, it will create a file at the root of the project. The file will later get deleted once all events are deselected.
 
 # Camera Controller
 *6 hours*
 
-This is the first actual task that I received. The controller itself is separated into several smaller pieces on Jira, but I was assigned (voluntarily) all of them. 
+This is the first actual task that I received. The controller itself is separated into several smaller pieces on Jira, but I was (voluntarily) assigned all of them. I made my first prototype before our lead designer drafted up the design documents for our camera. A simple 2D camera controller is quite easy to implement; I partially modeled the behavior of this controller based on Unity's [Cinemachine](https://unity.com/unity/features/editor/art-and-design/cinemachine) tools suite. First, there is a list of target `Transform`s assigned. Then, the controller aggregates all of the targets into a single encapsulating `Bounds2D` and treats them as one. Finally, the `position` of the camera is interpolated using `Mathf.SmoothDamp` and assigned directly in `LateUpdate()`.
+
+The new `CameraController` supports two different zones: a dead zone and a soft zone. Within the dead zone, the aggregate `Bounds2D` can shift freely without moving the camera. Once it exits, however, the camera will try to smoothly adjust its position to refit them back in place. The soft zone works similarly, but rather than moving smoothly, the controller will do whatever it can to ensure that the aggregate remain in zone. Thus the soft zone is almost always larger than the dead zone. Additionally, there are also options for adjusting the `orthographicSize` of the camera dynamically and restricting its axes of movement or applying a movement border.
 
 # Meetings & Logistics
-*7 hours*
+*6 hours*
 
-Although the WolverineSoft Studio weekly sunday meetings are listed as from 1100 to 1300 (yes I use military time), the meeting usually only goes for an hour as I have experienced. I am not sure whether it is because we just started the project and that there is not much to talk about, or us developers are always concise and efficient.
+Although the WolverineSoft Studio weekly sunday meetings are listed as from 1100 to 1300 (military time FTW), the meeting usually only goes for an hour as I have experienced. I am not sure whether it is because we just started the project and that there is not much to talk about, or us developers are always concise and efficient.
 
 Anyways, since it is my first time working with the new management tools (Confluence, Jira, and Bitbucket) it took some time to know where to find stuff. I spend quite a good chunk of time just exploring in these three websites, playing around with different graphs and sliders, and reading documents written by other members. As I have basically always worked on my programming projects by myself previously, working in a team and seeing the other content produced by your peers feels amazing. Everyday there is a new feature or a new improvement added, the project is constantly changing and evolving; it is dynamic. Nonetheless, figuring stuff out or just chatting with your team in Discord is also quite time consuming.
 
