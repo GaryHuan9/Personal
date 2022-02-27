@@ -31,18 +31,18 @@ As I was scrolling through the code, I really wanted to rework and improve this 
 
 I moved methods around, changed some data structures, removed quite a lot of redundant code. I also removed the destructor for the `Subscription<T>` class, since it will *never* get invoked unless the `Subscription<T>` is explicitly unsubscribed (and destructors in C# are only designed to be used for a failsafe measure). Now, whoever invokes `Subscribe` is also fully responsible for invoking `Unsubscribe`, which makes more sense than just orphaning the `Subscription<T>`.
 
-| ![class](/assets/images/posts/2022-02-20-first-blog-post/simplified-subscription.png) |
-|:--:|
-| *Cleaner `Subscriber` class without the finalizer* |
+| ![class]({{"/assets/images/posts/2022-02-20-first-blog-post/simplified-subscription.png" | relative_url}}) |
+| :--------------------------------------------------------------------------------------: |
+|                    *Cleaner `Subscriber` class without the finalizer*                    |
 
 ## The GUI debugger
 Nikhil's debugger works, however it injects *a lot* of boilerplate code into the `EventBus` class itself. A great debugger should function above a system, but not entangled with the system, so I extracted all of the logging code into a different class and removed the majority of the code repetitions.
 
-![debugger](/assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui.png){: style="float: right; padding: 15px"}
+![debugger]({{"/assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui.png"}}){: style="float: right; padding: 15px"}
 
 While all of this reworking already used more hours than I originally expected, I still decided to also improve the graphical presentation of the debugger. To be able to uniquely identity all of the event contexts that can be used with `EventBus`, I added an empty `IEvent` interface which all contexts must implement. With this interface, the debugger is able to find all of the event types in our `Assembly` and list them out for our troubled user to see.
 
-![searching](/assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui-search.png){: style="float: right; padding: 15px"}
+![searching]({{"/assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui-search.png" | relative_url}}){: style="float: right; padding: 15px"}
 
 I also added a search bar that could be very helpful in the future if we have hundreds of events. The code simply removes any candidate that does not contain the keyword that we are searching in a case-insensitive manner.
 
@@ -53,9 +53,9 @@ To carry the configuration of the selected events across Unity assembly reloads 
 
 This is the first actual task that I received. The controller itself is separated into several smaller pieces on Jira, but I was (voluntarily) assigned all of them. I made my first prototype before our lead designer drafted up the design documents for our camera. A simple 2D camera controller is quite easy to implement; I partially modeled the behavior of this controller based on Unity's [Cinemachine](https://unity.com/unity/features/editor/art-and-design/cinemachine) tools suite. First, there is a list of target `Transform`s assigned. Then, the controller aggregates all of the targets into a single encapsulating `Bounds2D` and treats them as one. Finally, the `position` of the camera is interpolated using `Mathf.SmoothDamp` and assigned directly in `LateUpdate()`.
 
-| ![gizmos](/assets/images/posts/2022-02-20-first-blog-post/camera-gizmos.png) |
-|:--:|
-| *Unity scene view gizmos for visualizing camera parameters* |
+| ![gizmos]({{"/assets/images/posts/2022-02-20-first-blog-post/camera-gizmos.png" | relative_url}}) |
+| :-----------------------------------------------------------------------------: |
+|           *Unity scene view gizmos for visualizing camera parameters*           |
 
 The new `CameraController` supports two different zones: a dead zone and a soft zone. Within the dead zone, the aggregate `Bounds2D` can shift freely without moving the camera. Once it exits, however, the camera will try to smoothly adjust its position to refit them back in place. The soft zone works similarly, but rather than moving smoothly, the controller will do whatever it can to ensure that the aggregate remain in zone. Thus the soft zone is almost always larger than the dead zone. Additionally, there are also options for adjusting the `orthographicSize` of the camera dynamically and restricting its axes of movement or applying a movement border.
 

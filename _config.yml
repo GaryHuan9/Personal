@@ -29,7 +29,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   planning on incorporating this blog into my personal website.
 # baseurl: "" # the subpath of your site, e.g. /blog
 url: https://garyhuan9.github.io/Personal # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  GaryHuan9
+github_username: GaryHuan9
 
 # Build settings
 remote_theme: "mmistakes/minimal-mistakes"
@@ -39,7 +39,6 @@ plugins:
   - jekyll-feed
   - jekyll-include-cache
 
-livereload: true
 future: true
 
 search              : true

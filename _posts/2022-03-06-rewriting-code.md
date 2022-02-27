@@ -17,15 +17,15 @@ I worked with the existing system and incorporated up kick fairly easily. The co
 
 While when I was having a conversation with Grace (from our art department) on Discord, she mentioned how our current idle and running animation looks a bit strange. After some investigation, I noticed that the animation with two exchanging sprites is seven frame long, meaning that one sprite is displayed one frame longer than the other.
 
-| ![uneven](/assets/images/posts/2022-03-06-rewriting-code/uneven-frames.png) |
-| :-------------------------------------------------------------------------: |
-| *Unity animation window showing an animation with a length of seven frames* |
+| ![uneven]({{"/assets/images/posts/2022-03-06-rewriting-code/uneven-frames.png" | relative_url}}) |
+| :----------------------------------------------------------------------------: |
+|  *Unity animation window showing an animation with a length of seven frames*   |
 
 I remembered that when I import animation in my project (which is 3D), all the animations end exactly on the last key, not on the frame that is one after the last key. This behavior is rather strange, however I was able to create a solution after a few bits of twiddling. 
 
-| ![even](/assets/images/posts/2022-03-06-rewriting-code/even-frames.png) |
-| :---------------------------------------------------------------------: |
-|      *Now the animation is showing both sprites for three frames*       |
+| ![even]({{"/assets/images/posts/2022-03-06-rewriting-code/even-frames.png" | relative_url}}) |
+| :------------------------------------------------------------------------: |
+|        *Now the animation is showing both sprites for three frames*        |
 
 Now the two sprites that we have for idling are both displayed for three frames exactly, and it looks much better. However, because we separated upper and lower body movements, we still have to find a way to ensure that their animation are in sync (i.e. blob up and down simultaneously).
 
