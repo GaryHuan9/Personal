@@ -24,7 +24,7 @@ A section is also displayed on the console while rendering to monitor the progre
 Before rendering begins, Echo builds acceleration structure(s) to improve the ray-scene intersection speed.
 Echo considers surface area heuristics across the longest axis to further increase the hierarchy build quality.
 The top-down construction process is parallelized across many threads to improve its build time on very large scenes.
-Currently, both binary bounding volume hierarchies (BVH) and quad BVH are featured. Especially on large scenes, 
+Currently, both binary bounding volume hierarchies (BVH) and quad BVH are featured. Especially on large scenes,
 quad BVH better exploits SIMD instructions by computing intersections with four children simultaneously.
 
 Echo renders in a tile-based fashion, to utilize all CPU threads while limiting memory usage.
