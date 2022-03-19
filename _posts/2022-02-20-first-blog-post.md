@@ -38,7 +38,7 @@ I moved methods around, changed some data structures, removed quite a lot of red
 ## The GUI debugger
 Nikhil's debugger works, however it injects *a lot* of boilerplate code into the `EventBus` class itself. A great debugger should function above a system, but not entangled with the system, so I extracted all of the logging code into a different class and removed the majority of the code repetitions.
 
-![debugger]({{"/assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui.png"}}){: style="float: right; padding: 15px"}
+![debugger]({{"/assets/images/posts/2022-02-20-first-blog-post/event-bus-debugger-gui.png" | relative_url}}){: style="float: right; padding: 15px"}
 
 While all of this reworking already used more hours than I originally expected, I still decided to also improve the graphical presentation of the debugger. To be able to uniquely identity all of the event contexts that can be used with `EventBus`, I added an empty `IEvent` interface which all contexts must implement. With this interface, the debugger is able to find all of the event types in our `Assembly` and list them out for our troubled user to see.
 
