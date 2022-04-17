@@ -10,7 +10,7 @@ Welcome to the fifth and final blog post of Project Rage! As the semester is com
 
 As we are slowly closing in towards the project deadline, everybody in the studio started focusing on polishing the game. In the past two weeks, I fixed a lot of bugs involving many different game systems. Some of the bugs are relatively simple, such as the `NullReferenceException`s reminding us that certain variables were not assigned properly. There were also issues that were not necessarily bugs, but still required significant time to resolve. For example, the level complete screen that I made a few weeks ago had been slightly modified by other members to add an animation to the score value display. Rather than simply displaying the final score, the new screen shows a number ticking up until it hits the actual value, giving the player a moment of anticipation. However, the old implementation is not particularly clean (to say the least...). As per usual, I did some refactoring using a custom math function adapted from my [CodeHelpers](https://github.com/GaryHuan9/CodeHelpers) to recreate a more robust version of the gentle animation. 
 
-| ![trees]({{"/assets/images/posts/2022-04-17-the-finale/code" | relative_url}}) |
+| ![code]({{"/assets/images/posts/2022-04-17-the-finale/code.png" | relative_url}}) |
 | :----------------------------------------------------------: |
 |                *Custom smooth math function*                 |
 
@@ -22,7 +22,7 @@ While I was improving the animation, I found a problem with the score system. Be
 
 The `Border` property on `CameraController.cs` is a nullable `Bounds2D?` that controls whether the camera should be restricted by a border. It is mostly used by the scene to indicate where encounters will occur and how the camera should be bounded to limit the player's ability to run away from encounters. Originally, this property is defined by the center of the camera, meaning that it only forces the camera's center to not go beyond the assigned `Bounds2D`. But as development continued, we noticed that although this is easy to achieve with code, it is often difficult to use when designers adjust them in the Unity editor inspector. Thus, I changed the property to bound the edge of the camera, rather than only the center. One caveat to consider is the desired behavior when the `Border` assigned is smaller than the camera itself. I decided that it would be the most convenient to use if the camera just stayed in place, which is what I ultimately implemented.
 
-| ![trees]({{"/assets/images/posts/2022-04-17-the-finale/camera.png" | relative_url}}) |
+| ![camera]({{"/assets/images/posts/2022-04-17-the-finale/bounds.png" | relative_url}}) |
 | :----------------------------------------------------------------: |
 |                       *Camera bounds gizmos*                       |
 
@@ -36,7 +36,7 @@ While play testing the game, we noticed that the camera occasionally suddenly ch
 
 There was a bug regarding the heavy enemies and their movements. When they roam before attacking the player, they might randomly travel outside of the viewable region of the screen, meaning the player can no longer see them. Once I spent some time understanding the code for controlling the heavy enemies and located where this issue stemmed from, I was able to easily fix it. While I was there, I also patched another problem with the heavy enemies' attack sequence. When one heavy enemy decides to attack, it first tries to move near the player, then pauses to prime its charge, and finally dashes to cause as much damage as possible. Previous iterations of this behavior did not worry about the Z distance of between the heavy enemy and the player, thus their attacks often missed because of the large difference in depth. After some modifications to the code, the heavy enemies now only prime its dash when their Z depth is similar to the player's, making the attacks much more effective.
 
-| ![trees]({{"/assets/images/posts/2022-04-17-the-finale/heavy.png" | relative_url}}) |
+| ![heavy]({{"/assets/images/posts/2022-04-17-the-finale/heavy.png" | relative_url}}) |
 | :---------------------------------------------------------------: |
 |                     *The heavy enemy dashing*                     |
 
